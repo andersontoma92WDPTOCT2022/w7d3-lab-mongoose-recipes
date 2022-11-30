@@ -41,5 +41,27 @@ recipeRoute.post('/create-many', async (req, res) => {
   }
 });
 //
+//   Iteration 4 - Update recipe
 //
+// enviar na forma:
+// {"title": "Asian Glazed Chicken Thighs","duration": 10}
+//
+recipeRoute.put('/editDuration', async (req, res) => {
+  try {
+    const { title, duration } = req.body;
+    console.log(title, duration, '----title/duration');
+    const updatedRecipe = await RecipeModel.findOneAndUpdate(
+      { title: title },
+      { duration: duration },
+
+      { new: true, runValidators: true }
+    );
+    console.log(updatedRecipe, '--- updated');
+    return res.status(200).json(updatedRecipe);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error.errors);
+  }
+});
+
 export default recipeRoute;
