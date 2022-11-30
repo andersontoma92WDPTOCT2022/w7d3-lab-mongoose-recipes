@@ -63,5 +63,29 @@ recipeRoute.put('/editDuration', async (req, res) => {
     return res.status(500).json(error.errors);
   }
 });
+//
+//   Iteration 5 - Remove a recipe
+//
+recipeRoute.delete('/deleteTitle/', async (req, res) => {
+  try {
+    console.log(req.body);
+
+    const deletedRecipe = await RecipeModel.deleteOne(req.body);
+
+    if (!deletedRecipe) {
+      return res.status(400).json({ msg: 'recipe não encontrada!' });
+    }
+
+    const recipes = await RecipeModel.find();
+    console.log('deletado');
+
+    return res.status(200).json(recipes);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error.errors);
+  }
+});
+//
+//
 
 export default recipeRoute;
