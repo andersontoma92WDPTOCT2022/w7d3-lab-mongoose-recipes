@@ -1,3 +1,25 @@
+import express from 'express';
+import * as dotenv from 'dotenv';
+import connect from './config/db.config';
+import recipeRoute from './routes/recipe.routes';
+//
+//habilitar o servidor a ter variáveis de ambiente
+dotenv.config();
+
+//instanciar a variável que vai ficar responsável pelo nosso servidor -> app
+const app = express();
+
+//configurar o servidor para aceitar enviar e receber arquivos em JSON
+app.use(express.json());
+
+//conectando com o banco de dados
+connect();
+
+app.use('/recipe', userRoute);
+//*************************
+//*************************
+// aula antiga
+/* 
 const mongoose = require('mongoose');
 
 // Import of the model Recipe from './models/Recipe.model.js'
@@ -21,3 +43,4 @@ mongoose
   .catch(error => {
     console.error('Error connecting to the database', error);
   });
+ */
