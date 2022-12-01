@@ -106,6 +106,39 @@ recipeRoute.delete('/deleteTitle/', async (req, res) => {
   }
 });
 //
+//   /recipe/delete/: recipeID
+//   3.2 Crie a rota DELETE /delete/:recipeId
+//
+recipeRoute.delete('/delete/:recipeID', async (req, res) => {
+  try {
+    const { recipeID } = req.params;
+
+    const deletedRecipe = await RecipeModel.findByIdAndDelete(recipeID);
+
+    if (!deletedRecipe) {
+      return res.status(400).json({ msg: 'recipe não encontrada!' });
+    }
+    // tualizar as 'recipes' do criador
+    await UserModel.findByIdAndUpdate(
+      deletedRecipe.creator,
+      {
+        $pull: {
+          recipes: recipeID,
+        },
+      },
+      { new: true, runValidators: true }
+    );
+
+    const recipes = await RecipeModel.find();
+    console.log('deletado');
+
+    return res.status(200).json(recipes);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error.errors);
+  }
+});
+//
 //
 
 export default recipeRoute;
