@@ -31,10 +31,7 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    active: {
-      type: Boolean,
-      default: true,
-    },
+
     date: { type: Date },
 
     recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],

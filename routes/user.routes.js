@@ -4,11 +4,12 @@ import UserModel from '../models/user.model.js';
 const userRoute = express.Router();
 
 //CREATE - MONGODB
-
-// /user/create
+//
+// /user (criação da rota basica no index.js)
+// /user/create (rota)
 // 2.1 Crie a rota POST /create
 //
-userRoute.post('/create-user', async (req, res) => {
+userRoute.post('/create', async (req, res) => {
   try {
     const form = req.body;
 
