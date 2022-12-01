@@ -55,5 +55,5 @@ const recipeSchema = new Schema(
 );
 //usar primeira letra maiuscula e singular (nome da collection = recipe no mongo)
 const RecipeModel = model('Recipe', recipeSchema);
-
+// note que o ref: no model é o "Recipe" da linha acima
 export default RecipeModel;
