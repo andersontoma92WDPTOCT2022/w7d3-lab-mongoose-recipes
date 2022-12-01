@@ -1,5 +1,6 @@
 import express from 'express';
 import RecipeModel from '../models/Recipe.model.js';
+import UserModel from '../models/user.model.js';
 //
 const recipeRoute = express.Router();
 //
@@ -7,12 +8,31 @@ const recipeRoute = express.Router();
 //
 //Iteration 2 - Create a recipe
 //
-recipeRoute.post('/create-recipe', async (req, res) => {
+recipeRoute.post('/create-recipe/:idUser', async (req, res) => {
   try {
-    const form = req.body;
+    const { idUser } = req.params;
+
+    console.log(idUser, req.body, '-- id e body no create');
 
     //quer criar um documento dentro da sua collection -> .create()
-    const newRecipe = await RecipeModel.create(form);
+    const newRecipe = await RecipeModel.create({
+      ...req.body,
+      creator: idUser,
+    });
+    //
+    console.log(newRecipe, ' --- new recipe');
+    //
+    await UserModel.findByIdAndUpdate(
+      idUser,
+      {
+        $push: {
+          recipes: newRecipe._id,
+        },
+      },
+      { new: true, runValidators: true }
+    );
+
+    //
 
     return res.status(201).json(newRecipe);
   } catch (error) {

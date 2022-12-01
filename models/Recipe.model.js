@@ -42,9 +42,7 @@ const recipeSchema = new Schema(
       type: Number,
       min: 0,
     },
-    creator: {
-      type: String,
-    },
+    creator: { type: Schema.Types.ObjectId, ref: 'User' },
     created: {
       type: Date,
     },
